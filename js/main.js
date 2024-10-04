@@ -204,15 +204,24 @@ document.addEventListener("DOMContentLoaded", function () {
 
 // Selecting Plan
 document.addEventListener("DOMContentLoaded", function () {
-  console.log("working");
-  const planCont = document.querySelectorAll(".plan-container");
-  const buyPlanBtn = document.querySelector(".buy-plan-btn");
-  planCont.forEach((plan) => {
-    plan.addEventListener("click", function () {
-      planCont.forEach((cont) => cont.classList.remove("active"));
-      plan.classList.add("active");
-      const planTitle = plan.querySelector("h5").textContent;
-      buyPlanBtn.textContent = `Get ${planTitle} Plan`;
+  const packages = document.querySelectorAll(".package-section"); // Select all packages
+
+  packages.forEach((packageSection) => {
+    const planCont = packageSection.querySelectorAll(".plan-container"); // Plan containers within each package
+    const buyPlanBtn = packageSection.querySelector(".buy-plan-btn"); // Button within each package
+
+    planCont.forEach((plan) => {
+      plan.addEventListener("click", function () {
+        // Remove active class from all plans in the current package
+        planCont.forEach((cont) => cont.classList.remove("active"));
+
+        // Add active class to the clicked plan
+        plan.classList.add("active");
+
+        // Update the button text for the current package
+        const planTitle = plan.querySelector("h5").textContent;
+        buyPlanBtn.textContent = `Get ${planTitle} Plan`;
+      });
     });
   });
 });
@@ -389,7 +398,6 @@ document.addEventListener("DOMContentLoaded", function () {
   const thirdPlanDescriptions = document.querySelectorAll(
     ".smaller-screen-third-plan-description"
   );
-  const planBtn = document.querySelector(".get-plan-btn");
 
   function clearActiveClasses() {
     // Remove 'active' from all first plans and descriptions
@@ -417,8 +425,6 @@ document.addEventListener("DOMContentLoaded", function () {
       clearActiveClasses();
       plan.classList.add("active");
       firstPlanDescriptions[index].classList.add("active");
-      const planTitle = plan.querySelector("h4").textContent;
-      planBtn.textContent = `Get ${planTitle} Plan`;
     });
   });
 
@@ -428,8 +434,6 @@ document.addEventListener("DOMContentLoaded", function () {
       clearActiveClasses();
       plan.classList.add("active");
       secondPlanDescriptions[index].classList.add("active");
-      const planTitle = plan.querySelector("h4").textContent;
-      planBtn.textContent = `Get ${planTitle} Plan`;
     });
   });
 
@@ -439,11 +443,24 @@ document.addEventListener("DOMContentLoaded", function () {
       clearActiveClasses();
       plan.classList.add("active");
       thirdPlanDescriptions[index].classList.add("active");
-      const planTitle = plan.querySelector("h4").textContent;
-      planBtn.textContent = `Get ${planTitle} Plan`;
     });
   });
 });
+
+document
+  .querySelectorAll(".smaller-screen-package-section")
+  .forEach((packageSection) => {
+    const planBtn = packageSection.querySelector(".get-plan-btn");
+    const plans = packageSection.querySelectorAll(".smaller-screen-plans");
+
+    plans.forEach((plan, index) => {
+      plan.addEventListener("click", function () {
+        const planTitle = plan.querySelector("h4").textContent;
+        console.log(planTitle);
+        planBtn.textContent = `Get ${planTitle} Plan`;
+      });
+    });
+  });
 
 // Filtering Plans for samller screen
 document.addEventListener("DOMContentLoaded", function () {
@@ -631,4 +648,49 @@ document.addEventListener("DOMContentLoaded", function () {
   openFilterBtn.addEventListener("click", function () {
     filterModal.classList.remove("d-none");
   });
+});
+
+// TNC Modal
+document.addEventListener("DOMContentLoaded", function () {
+  function activateSection(buttonSelector, sectionSelector) {
+    const buttons = document.querySelectorAll(buttonSelector);
+    const section = document.querySelector(sectionSelector);
+
+    buttons.forEach((button) => {
+      button.addEventListener("click", function () {
+        document
+          .querySelectorAll(".tnc-modal-container")
+          .forEach((sec) => sec.classList.remove("active"));
+        section.classList.add("active");
+      });
+    });
+  }
+
+  activateSection(".residential-buyer-tnc-btn", ".residential-buyer-tnc");
+  activateSection(".residential-seller-tnc-btn", ".residential-seller-tnc");
+  activateSection(".commercial-buyer-tnc-btn", ".commercial-buyer-tnc");
+  activateSection(".commercial-seller-tnc-btn", ".commercial-seller-tnc");
+  activateSection(".rental-tenant-tnc-btn", ".rental-tenant-tnc");
+  activateSection(".rental-owner-tnc-btn", ".rental-owner-tnc");
+
+  function closeAllTncModals() {
+    document
+      .querySelectorAll(".tnc-modal-container")
+      .forEach((sec) => sec.classList.remove("active"));
+  }
+
+  document.querySelectorAll(".close-tnc").forEach((closeBtn) => {
+    closeBtn.addEventListener("click", closeAllTncModals);
+  });
+
+  document
+    .querySelectorAll(".tnc-modal-container")
+    .forEach((modalContainer) => {
+      modalContainer.addEventListener("click", function (event) {
+        const modalInner = modalContainer.querySelector(".tnc-modal-inner");
+        if (!modalInner.contains(event.target)) {
+          closeAllTncModals();
+        }
+      });
+    });
 });
