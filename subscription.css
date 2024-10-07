@@ -606,7 +606,7 @@ main .toggle-button {
 .plan-section-smaller-screen .below-container {
   text-align: center;
   position: absolute;
-  bottom: 20px;
+  bottom: 40px;
   font-size: 0.9rem;
   width: 100%;
 }
