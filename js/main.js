@@ -456,7 +456,6 @@ document
     plans.forEach((plan, index) => {
       plan.addEventListener("click", function () {
         const planTitle = plan.querySelector("h4").textContent;
-        console.log(planTitle);
         planBtn.textContent = `Get ${planTitle} Plan`;
       });
     });
